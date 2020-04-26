@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tx.dao.uploadfile.UploadFileMapper">
+    <select id="queryAllPages" resultType="UploadFile" parameterType="map">
+
+        select f.id,f.saveName,f.showName,filePath,fileDesc,f.uploadTime,u.username as uploadUser
+        from uploadfile as f,user as u
+        <where>
+            f.u_id = u.id and deleteState = #{deleteState}
+            <if test=" keyWord!=null ">
+                and (`username` like "%"#{keyWord}"%" or `showName` like "%"#{keyWord}"%"
+                or `uploadTime` like "%"#{keyWord}"%" or `fileDesc` like "%"#{keyWord}"%")
+            </if>
+        </where>
+        limit #{current},#{countPages}
+    </select>
+
+    <insert id="addUploadFile">
+        insert into `uploadfile`(`u_id`,`saveName`,`showName`,`filePath`,`fileDesc`,`uploadTime`)
+        values(#{userId},#{saveName},#{showName},#{filePath},#{fileDesc},#{uploadTime})
+    </insert>
+
+    <select id="queryCount" resultType="java.lang.Integer">
+        select count(1) from `uploadfile` as f,`user` as u
+        <where>
+            f.u_id = u.id and deleteState = #{deleteState}
+            <if test="id!=0">
+                and u_id = #{id}
+            </if>
+            <if test="keyWord!=null">
+                and (`username` like "%"#{keyWord}"%" or `showName` like "%"#{keyWord}"%"
+                or `uploadTime` like "%"#{keyWord}"%" or `fileDesc` like "%"#{keyWord}"%")
+            </if>
+        </where>
+    </select>
+
+    <select id="queryUserFileById" resultType="UploadFile" parameterType="map">
+        select f.id,f.saveName,f.showName,f.filePath,f.fileDesc,f.uploadTime,f.deleteTime,u.username as uploadUser
+        from `uploadfile` as f,`user` as u
+        <where>
+            f.u_id = u.id and deleteState = #{deleteState} and f.u_id = #{id}
+            <if test="keyWord != null">
+                and (`showName` like "%"#{keyWord}"%" or `uploadTime` like "%"#{keyWord}"%" or `fileDesc` like
+                "%"#{keyWord}"%")
+            </if>
+        </where>
+        limit #{current},#{countPages};
+    </select>
+
+    <update id="changeUploadFile">
+        update `uploadfile`
+        <set>
+            showName = #{showName},fileDesc = #{fileDesc},updateTime = #{updateTime}
+            <if test="userId!=0">
+                ,u_id = #{userId}
+            </if>
+        </set>
+          where id = #{id}
+    </update>
+
+    <update id="updateFileDeleteState" parameterType="map">
+          update `uploadfile`
+        <set>
+            deleteState =#{deleteState}
+            <if test="deleteTime!=null">
+                ,deleteTime = #{deleteTime}
+            </if>
+            <if test="updateTime!=null">
+                ,updateTime = #{updateTime}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

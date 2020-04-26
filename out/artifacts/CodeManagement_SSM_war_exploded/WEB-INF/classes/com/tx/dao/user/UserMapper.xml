@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tx.dao.user.UserMapper">
+    <update id="updateUser">
+        update `user` set `password` = #{password},changePasswordTime = #{changePasswordTime} where id = #{id}
+    </update>
+
+    <insert id="addUser">
+        insert into `user`(`username`,`password`,`r_id`,`registerTime`)
+        values (#{username},#{password},#{roleId},#{registerTime})
+    </insert>
+</mapper>

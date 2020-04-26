@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       https://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd">
+    <!--扫描base-package下的包的注解-->
+    <context:component-scan base-package="com.tx.dao"/>
+    <!--导入properties资源-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--注册数据源 ：c3p0-->
+    <bean id="dataSource" class="${jdbc.dataSource}" destroy-method="close">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!--设置最长的等待时间-->
+        <property name="maxIdleTime" value="60"/>
+        <!--设置初始化连接池个数-->
+        <property name="initialPoolSize" value="3"/>
+        <!--设置最大连接池个数-->
+        <property name="maxPoolSize" value="8"/>
+        <!--设置最小连接池个数-->
+        <property name="minPoolSize" value="2"/>
+        <!--连接池不够时，一次增长2个-->
+        <property name="acquireIncrement" value="2"/>
+        <!--设置连接超时时间-->
+        <property name="checkoutTimeout" value="1000"/>
+        <!--从数据库获取连接失败时，尝试的次数-->
+        <property name="acquireRetryAttempts" value="2"/>
+        <!--表示连接关闭时，数据为待提交状态-->
+        <property name="autoCommitOnClose" value="true"/>
+        <!--空闲时自动减少连接到minPoolSize-->
+        <property name="maxIdleTimeExcessConnections" value="5"/>
+    </bean>
+    <!--注册SqlSessionFactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--配置数据源-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--绑定mybatis-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+    </bean>
+    <!--扫描basePackage下的接口，自动创建各自的动态代理类-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="com.tx.dao"/>
+    </bean>
+</beans>

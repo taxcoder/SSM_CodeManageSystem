@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <!--设置-->
+    <settings>
+        <!--驼峰命名转换-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--Log4j2日志-->
+        <setting name="logImpl" value="LOG4J2"/>
+    </settings>
+
+    <!--别名-->
+    <typeAliases>
+        <package name="com.tx.pojo"/>
+    </typeAliases>
+
+    <!--注册-->
+    <mappers>
+        <mapper class="com.tx.dao.user.UserMapper"/>
+        <mapper class="com.tx.dao.uploadfile.UploadFileMapper"/>
+    </mappers>
+
+</configuration>

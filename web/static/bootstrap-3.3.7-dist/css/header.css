@@ -1,0 +1,76 @@
+.navbar-header {
+    min-width: 760px;
+}
+
+.main {
+    min-width: 760px;
+    min-height: 550px;
+}
+
+.container {
+    width: 1920px;
+    min-width: 760px;
+}
+
+#navbar {
+    width: 200px;
+    position: absolute;
+    right: 0;
+}
+
+#navbar_1 {
+    width: 300px;
+    position: absolute;
+    right: 20px;
+}
+
+#pages {
+    width: 115px;
+    height: 104px;
+}
+
+#hide_area {
+    box-shadow: 5px 5px 5px #333;
+    position: absolute;
+    background: white;
+    width: 115px;
+    height: 90px;
+    top: 66px;
+    right: 20px;
+    border-radius: 10px;
+}
+
+#arrow {
+    position: absolute;
+    right: 61px;
+    top: 55px;
+    color: #e1e1e1;
+}
+
+/*a,span[class *= "changePassword"]{*/
+/*    display: block;*/
+/*}*/
+
+#alterPassword {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    height: 30px;
+
+}
+
+#loginOut {
+    position: absolute;
+    top: 58px;
+    right: 15px;
+    height: 30px;
+}
+
+.footer {
+    text-align: center;
+    position: relative;
+    bottom: -287px;
+    width: 100%;
+    height: 67px;
+    background-color: #333
+}

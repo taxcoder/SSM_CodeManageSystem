@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- status="OFF"，可以去掉，它的含义为是否记录log4j2本身的event信息，默认是OFF -->
+<configuration status="OFF">
+    <Properties>
+        <property name="log_pattern">[%p][%d{yyyy-MM-dd HH:mm}] (%F:%L)[%c]\n%m%n================================================================================================\n\n
+        </property>
+        <property name="log_address">/Maven项目/CodeManagement_SSM/src/main/resources/logs</property>
+    </Properties>
+
+
+    <appenders>
+        <!-- 用来控制台输出 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${log_pattern}"/>
+        </Console>
+
+        <!--info-->
+        <RollingRandomAccessFile name="infoLog"
+                                 fileName="${log_address}/simple/info.log"
+                                 filePattern="${log_address}/detailed/%d{yyyy-MM-dd}/info-%d{yyyy-MM-dd HH-mm}-%i.log">
+            <Filters>
+<!--                <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL"/>-->
+                <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout
+                    pattern="${log_pattern}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingRandomAccessFile>
+
+        <!--debug及以上级别输出-->
+        <RollingRandomAccessFile name="debugLog"
+                                 fileName="${log_address}/simple/debug.log"
+                                 filePattern="${log_address}/detailed/%d{yyyy-MM-dd}/debug-%d{yyyy-MM-dd HH-mm}-%i.log"
+                                 append = "false">
+            <Filters>
+                <!--<ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL"/>-->
+                <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout
+                    pattern="${log_pattern}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingRandomAccessFile>
+
+        <!--error-->
+        <RollingRandomAccessFile name="errorLog"
+                                 fileName="${log_address}/simple/error.log"
+                                 filePattern="${log_address}/detailed/%d{yyyy-MM-dd}/error-%d{yyyy-MM-dd HH-mm}-%i.log">
+            <Filters>
+                <!--<ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL"/>-->
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout
+                    pattern="${log_pattern}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingRandomAccessFile>
+
+    </appenders>
+    <loggers>
+        <Logger name="com.tx.dao" level="debug" additivity="false">
+            <AppenderRef ref="debugLog"/>
+            <AppenderRef ref="infoLog"/>
+            <AppenderRef ref="errorLog"/>
+        </Logger>
+
+        <Logger name="com.tx.service" level="info" additivity="false">
+            <AppenderRef ref="debugLog"/>
+            <AppenderRef ref="infoLog"/>
+            <AppenderRef ref="errorLog"/>
+        </Logger>
+
+
+
+        <Root level="warn">
+            <AppenderRef ref="Console"/>
+        </Root>
+
+
+    </loggers>
+</configuration>
