@@ -1,10 +1,10 @@
 "use strict";
 $(function () {
     $("#register-btn").click("on", function () {
-        window.location.href = "register";
+        window.location.href = $("#address").val()+"/free/register";
     });
     $("#login-btn").click("on", function () {
-        window.location.href = "login";
+        window.location.href = $("#address").val()+"/free/login";
     });
 
     $("#pages_show").hover(function () {

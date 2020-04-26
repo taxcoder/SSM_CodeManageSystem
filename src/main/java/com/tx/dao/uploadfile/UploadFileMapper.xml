@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.tx.dao.uploadfile.UploadFileMapper">
-    <select id="queryAllPages" resultType="UploadFile" parameterType="map">
+    <select id="queryTotalData" resultType="UploadFile" parameterType="map">
 
         select f.id,f.saveName,f.showName,filePath,fileDesc,f.uploadTime,u.username as uploadUser
         from uploadfile as f,user as u
@@ -61,6 +61,7 @@
           where id = #{id}
     </update>
 
+    <!--修改删除状态，以及传入的删除时间或修改时间-->
     <update id="updateFileDeleteState" parameterType="map">
           update `uploadfile`
         <set>

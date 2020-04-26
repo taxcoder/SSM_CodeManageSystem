@@ -4,9 +4,7 @@ import com.tx.pojo.UploadFile;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +27,7 @@ public interface UploadFileMapper {
      * @param map 携带信息的map
      * @return 返回分页的数据
      */
-    List<UploadFile> queryAllPages(Map<String,Object> map);
+    List<UploadFile> queryTotalData(Map<String,Object> map);
 
     /**
      * 上传一个文件
@@ -63,7 +61,7 @@ public interface UploadFileMapper {
      * @param id 文件ID
      * @return 返回文件
      */
-    @Select("select id,showName,fileDesc from `uploadfile` where id = #{id}")
+    @Select("select id,saveName,showName,filePath,fileDesc from `uploadfile` where id = #{id}")
     UploadFile queryFileByIdOne(@Param("id") long id);
 
     /**
@@ -73,4 +71,6 @@ public interface UploadFileMapper {
      */
     @Delete("delete from `uploadfile` where id = #{id}")
     int deleteFile(@Param("id") long id);
+
+
 }

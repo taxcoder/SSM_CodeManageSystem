@@ -1,6 +1,5 @@
 package com.tx.listen;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -12,8 +11,7 @@ import javax.servlet.ServletContextListener;
 public class ServletContextLister implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        ServletContext servletContext = servletContextEvent.getServletContext();
-        servletContext.setAttribute("count",0);
+        servletContextEvent.getServletContext().setAttribute("count",0);
     }
 
     @Override

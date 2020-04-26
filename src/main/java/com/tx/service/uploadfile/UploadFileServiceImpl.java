@@ -22,6 +22,7 @@ public class UploadFileServiceImpl implements UploadFileService{
     @Override
     public int queryCount(long id,String keyWord,boolean deleteState) {
         Map<String,Object> map = new HashMap<>(6);
+        // id用于和user进行关联，获取角色表的角色名
         map.put("id",id);
         map.put("keyWord",keyWord);
         map.put("deleteState",deleteState);
@@ -29,13 +30,13 @@ public class UploadFileServiceImpl implements UploadFileService{
     }
 
     @Override
-    public List<UploadFile> queryAllPages(String keyWord,int current,int countPages,boolean deleteState) {
-        Map<String,Object> map = new HashMap<String, Object>(8);
+    public List<UploadFile> queryTotalData(String keyWord,int current,int countPages,boolean deleteState) {
+        Map<String,Object> map = new HashMap<>(8);
         map.put("keyWord",keyWord);
         map.put("current",current * countPages);
         map.put("countPages",countPages);
         map.put("deleteState",deleteState);
-        return uploadFileMapper.queryAllPages(map);
+        return uploadFileMapper.queryTotalData(map);
     }
 
     @Override

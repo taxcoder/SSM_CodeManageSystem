@@ -40,7 +40,7 @@
         <listener-class>com.tx.listen.ServletContextLister</listener-class>
     </listener>
     <listener>
-        <listener-class>com.tx.listen.LoginUserListen</listener-class>
+        <listener-class>com.tx.listen.LoginUserListener</listener-class>
     </listener>
 
     <session-config>

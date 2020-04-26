@@ -38,12 +38,15 @@ public class PageUtil {
     }
 
     public void setCurrent(int current) {
-        this.current = current;
+        //防止当前页数大于总页数
+        this.current = Math.min(Math.max(1,current), this.getAllPages());
     }
 
     public int getAllPages() {
         if (allCounts < countPages) {
             return 1;
+
+            //不存在小数
         } else if ((double) allCounts / countPages - (int) (allCounts / countPages) == 0) {
             return allCounts / countPages;
         } else {

@@ -10,7 +10,7 @@ import javax.servlet.http.*;
  * 获取当前访问人数
  */
 
-public class LoginUserListen implements HttpSessionListener {
+public class LoginUserListener implements HttpSessionListener {
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
         /*
@@ -18,17 +18,18 @@ public class LoginUserListen implements HttpSessionListener {
             warn:不要使用long类型
          */
         HttpSession session = httpSessionEvent.getSession();
+        //存储到全局中
         ServletContext servletContext = session.getServletContext();
-        int count = (int) servletContext.getAttribute("count");
-        session.getServletContext().setAttribute("count", count +1);
+
+        session.getServletContext().setAttribute("count", (int) servletContext.getAttribute("count") + 1);
     }
 
     @Override
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
         ServletContext servletContext = httpSessionEvent.getSession().getServletContext();
         int count = (int) servletContext.getAttribute("count");
-        if(count > 0){
-            servletContext.setAttribute("count",count -1);
+        if (count > 0) {
+            servletContext.setAttribute("count", count - 1);
         }
     }
 }

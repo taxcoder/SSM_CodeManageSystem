@@ -29,7 +29,7 @@ public interface UploadFileService {
      * @param deleteState 删除状态
      * @return 返回分完页的数据
      */
-    List<UploadFile> queryAllPages(String keyWord,int current,int countPages,boolean deleteState);
+    List<UploadFile> queryTotalData(String keyWord,int current,int countPages,boolean deleteState);
 
     /**
      * 上传一个文件

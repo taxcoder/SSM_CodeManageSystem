@@ -2,8 +2,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>注册错误</title>
+    <title>业务异常</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link href="${pageContext.request.contextPath}/static/css/sidebar.css" rel="stylesheet">
     <style>
         body {
             background-color: #a6e1ec;
@@ -65,6 +66,12 @@
     <div id="nesting_register">
         <span class="glyphicon glyphicon-remove-circle"><label class="label_lose">
         <c:choose>
+            <c:when test="${param.error == '4'}">
+                登录异常
+            </c:when>
+            <c:when test="${param.error == '3'}">
+                删除失败
+            </c:when>
             <c:when test="${param.error == '2'}">
                 上传失败
             </c:when>
@@ -82,6 +89,9 @@
     </div>
     <div id="Tips">
         <c:choose>
+            <c:when test="${param.error == '4'}">
+                登录
+            </c:when>
             <c:when test="${param.error == '3'}">
                 删除
             </c:when>
@@ -103,7 +113,12 @@
     <div id="resource">
 
         <c:choose>
-            <c:when test="${error == '3'}">
+            <c:when test="${param.error == '4'}">
+                <a href="${pageContext.request.contextPath}/admin/adminLogin" class="btn btn-primary" id="again_register">
+                    重新登录
+                </a>
+            </c:when>
+            <c:when test="${param.rror == '3'}">
                 <a href="${pageContext.request.contextPath}/file/myFile" class="btn btn-primary" id="again_register">
                     个人文件
                 </a>

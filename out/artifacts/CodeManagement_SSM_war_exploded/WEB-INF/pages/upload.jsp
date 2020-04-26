@@ -8,6 +8,7 @@
           href="${pageContext.request.contextPath }/static/bootstrap-3.3.7-dist/css/dashboard.css">
     <link type="text/css" rel="stylesheet"
           href="${pageContext.request.contextPath }/static/bootstrap-fileinput-master/css/fileinput.css"/>
+    <link href="${pageContext.request.contextPath}/static/css/sidebar.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath }/static/bootstrap-3.3.7-dist/css/header.css" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/static/js/jquery-3.5.0.js"></script>
     <script src="${pageContext.request.contextPath}/static/js/upload.js"></script>
@@ -65,7 +66,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 <jsp:include page="include/footer.jsp"/>
 <script type="text/javascript"

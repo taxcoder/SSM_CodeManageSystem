@@ -1,19 +1,9 @@
 $(function () {
-    $("#register-btn").click("on", function () {
-        window.location.replace($("#address").val()+"/free/register");
-    });
-    $("#login-btn").click("on", function () {
-        window.location.replace($("#address").val()+"/free/login");
-    });
-
-    $("#pages_show").hover(function () {
-        $("#pages").fadeIn(1100);
-    },function () {
-        $("#pages").fadeOut(1100);
-    });
-
     let isFileName = false;
     let isIntro = false;
+    $("#nav-span-3").removeClass("glyphicon-chevron-left").addClass("glyphicon-chevron-down");
+    $("#ul_menu_3").css({"display":""});
+
     $("#codefile").change(function () {
             if ($("#codefile").val().length > 0) {
                 if (check()) {

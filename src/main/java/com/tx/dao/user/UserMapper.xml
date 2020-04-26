@@ -4,12 +4,33 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.tx.dao.user.UserMapper">
+    <!--修改密码-->
     <update id="updateUser">
         update `user` set `password` = #{password},changePasswordTime = #{changePasswordTime} where id = #{id}
     </update>
-
+    <!--新增用户-->
     <insert id="addUser">
-        insert into `user`(`username`,`password`,`r_id`,`registerTime`)
-        values (#{username},#{password},#{roleId},#{registerTime})
+        insert into `user`(`username`,`password`,`r_id`,`registerTime`) values (#{username},#{password},#{roleId},#{registerTime})
     </insert>
+
+    <select id="queryUserAllCount" resultType="int">
+        select count(1) from `user` as u,`role` as r
+        <where>
+            u.r_id = r.id
+            <if test="keyWord!=null">
+                and (r.roleName like "%"#{keyWord}"%" or username like "%"#{keyWord}"%")
+            </if>
+        </where>
+    </select>
+
+    <select id="queryUserAll" parameterType="map" resultType="user">
+        select u.id,username,password,u.r_id as roleId,registerTime,changePasswordTime,r.roleName as userRoleName from `user` as u,`role` as r
+        <where>
+         u.r_id = r.id
+         <if test="keyWord!=null">
+             and (username like "%"#{keyWord}"%" or r.roleName like "%"#{keyWord}"%")
+         </if>
+         limit #{current},#{pageCount}
+        </where>
+    </select>
 </mapper>

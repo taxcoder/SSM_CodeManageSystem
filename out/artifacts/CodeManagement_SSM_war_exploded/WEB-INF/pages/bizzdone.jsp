@@ -5,6 +5,7 @@
     <%@ include file="include/include.jsp" %>
     <title>代码管理系统</title>
     <link href="${pageContext.request.contextPath }/static/bootstrap-3.3.7-dist/css/dashboard.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/static/css/sidebar.css" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/static/js/jquery-3.5.0.js"></script>
     <script>
         let x = 4;

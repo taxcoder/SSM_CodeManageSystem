@@ -55,6 +55,8 @@
                                 class="glyphicon glyphicon-cog changePassword" id="alterPassword">&nbsp;修改密码</span></a>
                         <a href="${pageContext.request.contextPath}/free/loginOut"><span
                                 class="glyphicon glyphicon-log-out changePassword" id="loginOut">&nbsp;退出登录</span></a>
+                        <a href="${pageContext.request.contextPath}/admin/adminLogin"><span
+                                class="glyphicon glyphicon-log-out changePassword" id="adminPage">&nbsp;进入后台</span></a>
 
                     </div>
                 </div>

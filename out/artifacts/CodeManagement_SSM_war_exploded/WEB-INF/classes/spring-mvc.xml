@@ -59,6 +59,10 @@
             <mvc:mapping path="/file/**"/>
             <bean class="com.tx.interceptor.FileInterceptor"/>
         </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/admin/**"/>
+            <bean class="com.tx.interceptor.AdminInterceptor"/>
+        </mvc:interceptor>
     </mvc:interceptors>
 
 </beans>

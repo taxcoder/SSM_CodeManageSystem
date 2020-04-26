@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 
@@ -13,7 +14,7 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User implements Serializable {
     /**
      * id=ID
      * username=用户名
@@ -28,6 +29,7 @@ public class User {
 	private long roleId;
 	private Timestamp registerTime;
 	private Timestamp changePasswordTime;
+	private String userRoleName;
     /**
      * 登录和修改密码
      */
@@ -45,6 +47,4 @@ public class User {
         this.roleId = roleId;
         this.registerTime = registerTime;
     }
-
-
 }

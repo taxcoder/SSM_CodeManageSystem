@@ -7,13 +7,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.*;
 import java.sql.Timestamp;
 
 /**
@@ -25,6 +21,7 @@ import java.sql.Timestamp;
  */
 @Controller
 @RequestMapping("/user")
+@SuppressWarnings("all")
 public class UserController {
 
     private UserService userService;
@@ -46,13 +43,9 @@ public class UserController {
 
     @PostMapping("/register")
     public String register(User user, Model model) {
-        User userData;
-        if (user.getId() != 0) {
-            //管理不会退出登录，所以可以携带ID
-            userData = new User(user.getUsername(), user.getPassword(), 0, new Timestamp(System.currentTimeMillis()));
-        } else {
-            userData = new User(user.getUsername(), user.getPassword(), 1, new Timestamp(System.currentTimeMillis()));
-        }
+        //管理员后台给用户增加权限
+        User userData = new User(user.getUsername(), user.getPassword(), 3, new Timestamp(System.currentTimeMillis()));
+        //影响的行数大于0
         if (userService.addUser(userData) > 0) {
             return "redirect:/free/login";
         } else {
@@ -61,11 +54,18 @@ public class UserController {
         }
     }
 
+    /**
+     * 注册时判断是否用户名重名
+     *
+     * @param username 用户名
+     * @return
+     */
     @ResponseBody
     @PostMapping("/fight")
     public String userRegister(String username) {
-        User user = userService.queryUserByName(username);
-        if (user != null) {
+        //存在相同用户名
+        if (userService.queryUserByName(username) != null) {
+            //返回 1，表示存在相同用户名
             return "1";
         } else {
             return "0";
@@ -79,9 +79,6 @@ public class UserController {
         //登录判断
         User userDao = userService.queryUserLogin(username, password);
 
-        //应用
-        ServletContext servletContext = session.getServletContext();
-
         if (userDao == null) {
             //用户名或密码错误
             model.addAttribute("error", "1");
@@ -92,18 +89,24 @@ public class UserController {
         }
     }
 
+    /**
+     * 判断旧密码
+     *
+     * @param password 旧密码
+     * @param request  请求
+     * @return 返回信息
+     */
     @ResponseBody
     @PostMapping("/judgePassword")
     public String judgePassword(String password, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
 
-        //修改密码
-        User userDao = userService.queryUserLogin(user.getUsername(), password);
-
-        //为空
         if (password == null || "".equals(password)) {
+            //为空
             return "-1";
-        } else if (userDao == null) {
+
+            //通过传递的旧密码判断获取User是否为空
+        } else if (userService.queryUserLogin(user.getUsername(), password) == null) {
             //用户名或密码错误
             return "0";
         } else {
@@ -112,33 +115,32 @@ public class UserController {
         }
     }
 
+    /**
+     * 修改密码
+     *
+     * @param password 新密码
+     * @param id       用户id
+     */
     @PostMapping("/changePassword")
     public String changePassword(String password, HttpServletRequest request, Model model, String id) {
         User user = (User) request.getSession().getAttribute("user");
-        /**
-         *  修改错误:2
-         *  上传错误：1
-         *  其他：注册错误
-         */
 
-        if (id == null || "".equals(id)) {
+        if (id == null || "".equals(id) || !id.matches("\\d+")) {
+            //修改错误
             model.addAttribute("error", "2");
-            return "redirect:/free/operationError";
-        } else if (!(id.matches("\\d+") && Long.parseLong(id) > 0)) {
-            model.addAttribute("error", "2");
+            //跳转到错误页面
             return "redirect:/free/operationError";
         }
 
-        if (user.getId() == Long.parseLong(id)) {
-
-            boolean result = userService.updateUser(new User(Long.parseLong(id), password, new Timestamp(System.currentTimeMillis())));
-            //退出登录，销毁session
-            request.getSession().invalidate();
-            return "redirect:/free/login";
-        } else {
-            model.addAttribute("error", "2");
-            return "redirect:/free/operationError";
+        //修改页面存储的id和当前登录用户的id一致，且修改结果为true
+        if (user.getId() == Long.parseLong(id) && userService.updateUser(new User(Long.parseLong(id), password, new Timestamp(System.currentTimeMillis())))) {
+                //退出登录，销毁session
+                request.getSession().invalidate();
+                return "redirect:/free/login";
         }
+
+        model.addAttribute("error", "2");
+        return "redirect:/free/operationError";
     }
 
     //跳转视图

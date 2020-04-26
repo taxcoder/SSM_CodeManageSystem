@@ -27,7 +27,7 @@
         <!--连接池不够时，一次增长2个-->
         <property name="acquireIncrement" value="2"/>
         <!--设置连接超时时间-->
-        <property name="checkoutTimeout" value="1000"/>
+<!--        <property name="checkoutTimeout" value="1000"/>-->
         <!--从数据库获取连接失败时，尝试的次数-->
         <property name="acquireRetryAttempts" value="2"/>
         <!--表示连接关闭时，数据为待提交状态-->

@@ -5,6 +5,8 @@
   	<%@ include file="include/include.jsp" %>
     <title>代码管理系统</title>
 	<link href="${pageContext.request.contextPath }/static/bootstrap-3.3.7-dist/css/dashboard.css" rel="stylesheet">
+      <link href="${pageContext.request.contextPath}/static/css/sidebar.css" rel="stylesheet">
+      <script src="${pageContext.request.contextPath}/static/js/jquery-3.5.0.js"></script>
   </head>
 
   <body>
@@ -27,7 +29,14 @@
         </div>
       </div>
     </div>
-
     <jsp:include page="include/footer.jsp"/>
+    <script>
+        $("#register-btn").click("on", function () {
+            window.location.href = "register";
+        });
+        $("#login-btn").click("on", function () {
+            window.location.href = "login";
+        });
+    </script>
   </body>
 </html>
